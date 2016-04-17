@@ -1,0 +1,24 @@
+name: Dear Diary
+description: A simple node.js slack bot
+avatar: resources/avatar.png
+#background: resources/background.png
+#screenshots:
+#  - screenshot: resources/screenshot1.png
+#  - screenshot: resources/screenshot2.jpg
+config:
+  - name: WIT_TOKEN
+    friendly_name: Wit.ai API token.
+    type: secret
+    global: true
+  - name: FB_PAGE_ACCESS_TOKEN
+    friendly_name: Facebook Page access token.
+    type: secret
+    global: true
+  - name: FB_VERIFY_TOKEN
+    friendly_name: Facebook verify token.
+    type: secret
+    global: true
+  - name: PORT
+    friendly_name: Port number.
+    type: secret
+    global: true
