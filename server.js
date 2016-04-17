@@ -1,11 +1,11 @@
 var Botkit = require('botkit')
 
 var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
-var verifyToken = process.env.FB_VERIFY_TOKEN
+var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
 var port = process.env.PORT
 
-if (!accessToken) throw new Error('FB_PAGE_ACCESS_TOKEN is required but missing.')
-if (!verifyToken) throw new Error('FB_VERIFY_TOKEN is required but missing.')
+if (!accessToken) throw new Error('FACEBOOK_PAGE_ACCESS_TOKEN is required but missing.')
+if (!verifyToken) throw new Error('FACEBOOK_VERIFY_TOKEN is required but missing.')
 if (!port) throw new Error('PORT is required but missing.')
 
 var controller = Botkit.facebookbot({
