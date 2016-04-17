@@ -1,6 +1,6 @@
 var Botkit = require('botkit')
 
-var accessToken = process.env.FB_PAGE_ACCESS_TOKEN
+var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
 var verifyToken = process.env.FB_VERIFY_TOKEN
 var port = process.env.PORT
 
