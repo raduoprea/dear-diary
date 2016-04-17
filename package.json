@@ -1,0 +1,14 @@
+{
+  "name": "dear-diary",
+  "version": "1.0.0",
+  "description": "A simple diary bot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Radu Oprea",
+  "license": "MIT",
+  "dependencies": {
+    "botkit": "^0.1.1"
+  }
+}
