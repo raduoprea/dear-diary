@@ -26,8 +26,6 @@ controller.setupWebserver(port, function (err, webserver) {
 
 controller.hears('hi', 'message_received', function (bot, message) {
     
-    //console.log(util.inspect(message), { colors: true, depth: null });
-    
     wit_ai.process(message.user ,message);
     
     //bot.reply(message, 'Hello to you too!')

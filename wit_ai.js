@@ -1,6 +1,7 @@
 'use strict';
 
 const Wit = require('node-wit').Wit;
+var util = require('util')
 
 const witToken = process.env.WIT_TOKEN;
 
@@ -62,6 +63,11 @@ function WitAi () {
     // This will run all actions until our bot has nothing left to do
     
     const context = {}; 
+    
+    console.log('sessionId: ' + util.inspect(sessionId));
+    console.log('message: ' + util.inspect(message));
+    console.log('context: ' + util.inspect(context));
+    
     
     wit.runActions(
         sessionId, // the user's current session
