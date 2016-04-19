@@ -23,7 +23,7 @@ controller.setupWebserver(port, function (err, webserver) {
     })
 })
 
-controller.hears('(.*)', 'message_received', function (bot, message) {
+controller.hears('hi', 'message_received', function (bot, message) {
     
     //wit_ai.process(message);
     
