@@ -1,4 +1,5 @@
 var Botkit = require('botkit')
+var util = require('util')
 var wit_ai = require('./wit_ai')();
 
 var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
@@ -24,6 +25,8 @@ controller.setupWebserver(port, function (err, webserver) {
 })
 
 controller.hears('hi', 'message_received', function (bot, message) {
+    
+    console.log(util.inspect(bot));
     
     wit_ai.process(message);
     

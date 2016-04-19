@@ -22,8 +22,14 @@ const firstEntityValue = (entities, entity) => {
 
 const actions = {
   say: (sessionId, context, message, cb) => {
-    console.log(message);
-    cb();
+
+    sendMessage(fbUserId, message, (err, data) => {
+      if (err) {
+        app.log.error('Error sending a response to %s: %s', fbUserId, err.message)
+      }
+      console.log('calling wit callback after say')
+      cb()
+    })
   },
   merge: (sessionId, context, entities, message, cb) => {
     // Retrieve the location entity and store it into a context field
@@ -50,17 +56,16 @@ const wit = new Wit(WIT_TOKEN, actions);
 function WitAi () {
   var self = this
   
-  self.process = function (msg) {
+  self.process = function (sessionId, message) {
       
     // Let's forward the message to the Wit.ai Bot Engine
     // This will run all actions until our bot has nothing left to do
     
-    const sessionId = "testSession";
     const context = {}; 
     
     wit.runActions(
         sessionId, // the user's current session
-        msg, // the user's message 
+        message, // the user's message 
         context, // the user's current session state
         (error, context) => {
         if (error) {
