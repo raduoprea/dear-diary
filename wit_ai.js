@@ -1,8 +1,8 @@
 'use strict';
-var util = require('util');
+
 const Wit = require('node-wit').Wit;
 
-const WIT_TOKEN = process.env.WIT_TOKEN;
+const witToken = process.env.WIT_TOKEN;
 
 module.exports = function () {
   return new WitAi()
@@ -51,7 +51,7 @@ const actions = {
 };
 
 // Setting up our bot
-const wit = new Wit(WIT_TOKEN, actions);
+const wit = new Wit(witToken, actions);
 
 function WitAi () {
   var self = this
@@ -69,7 +69,7 @@ function WitAi () {
         context, // the user's current session state
         (error, context) => {
         if (error) {
-            console.log('Oops! Got an error from Wit:', util.inspect(error), { colors: true, depth: null });
+            console.log('Oops! Got an error from Wit:', error);
         } else {
             // Our bot did everything it has to do.
             // Now it's waiting for further messages to proceed.
