@@ -68,7 +68,6 @@ function WitAi () {
     console.log('message: ' + util.inspect(message));
     console.log('context: ' + util.inspect(context));
     
-    
     wit.runActions(
         sessionId, // the user's current session
         message, // the user's message 
