@@ -69,7 +69,7 @@ function WitAi () {
         context, // the user's current session state
         (error, context) => {
         if (error) {
-            console.log('Oops! Got an error from Wit:', error);
+            console.log('Oops! Got an error from Wit:', util.inspect(error), { colors: true, depth: null });
         } else {
             // Our bot did everything it has to do.
             // Now it's waiting for further messages to proceed.
