@@ -1,5 +1,5 @@
 'use strict';
-
+var util = require('util');
 const Wit = require('node-wit').Wit;
 
 const WIT_TOKEN = process.env.WIT_TOKEN;
