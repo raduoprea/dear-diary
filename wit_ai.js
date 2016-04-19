@@ -25,7 +25,7 @@ const firstEntityValue = (entities, entity) => {
 const actions = {
   say: (sessionId, context, message, cb) => {
 
-    radioTower.sendMessage(fbUserId, message, (err, data) => {
+    radioTower.sendMessage(sessionId, message, (err, data) => {
       if (err) {
         app.log.error('Error sending a response to %s: %s', fbUserId, err.message)
       }
