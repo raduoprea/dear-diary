@@ -1,9 +1,14 @@
 const request = require('request')
+const accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
 
-module.exports = function (app) {
-  var accessToken = app.config.facebook.accessToken
+module.exports = function () {
+  return new RadioTower();
+}
 
-  return function sendMessage (sender, text, done) {
+function RadioTower() {
+  var self = this;
+  
+  self.sendMessage = function (sender, text, done) {
     request({
       method: 'POST',
       url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -25,7 +30,7 @@ module.exports = function (app) {
         return done(response.body.error)
       }
 
-      app.log.info('Sent facebook text message')
+      console.log('Sent facebook text message')
       done(null)
     })
   }

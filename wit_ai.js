@@ -1,7 +1,8 @@
 'use strict';
 
 const Wit = require('node-wit').Wit;
-var util = require('util')
+const radioTower = require('./radioTower')();
+
 
 const witToken = process.env.WIT_TOKEN;
 
@@ -24,7 +25,7 @@ const firstEntityValue = (entities, entity) => {
 const actions = {
   say: (sessionId, context, message, cb) => {
 
-    sendMessage(fbUserId, message, (err, data) => {
+    radioTower.sendMessage(fbUserId, message, (err, data) => {
       if (err) {
         app.log.error('Error sending a response to %s: %s', fbUserId, err.message)
       }
@@ -63,10 +64,6 @@ function WitAi () {
     // This will run all actions until our bot has nothing left to do
     
     const context = {}; 
-    
-    console.log('sessionId: ' + util.inspect(sessionId));
-    console.log('message: ' + util.inspect(message));
-    console.log('context: ' + util.inspect(context));
     
     wit.runActions(
         sessionId, // the user's current session
