@@ -1,5 +1,5 @@
 var Botkit = require('botkit')
-//var wit_ai = require('./wit_ai')();
+var wit_ai = require('./wit_ai')();
 
 var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
 var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
@@ -25,7 +25,7 @@ controller.setupWebserver(port, function (err, webserver) {
 
 controller.hears('hi', 'message_received', function (bot, message) {
     
-    //wit_ai.process(message);
+    wit_ai.process(message);
     
-    bot.reply(message, 'Hello to you too!')
+    //bot.reply(message, 'Hello to you too!')
 })
