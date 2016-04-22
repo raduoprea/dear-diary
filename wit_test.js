@@ -39,9 +39,9 @@ const actions = {
       context.sentiment = sentiment;
     }
     
-    const name = firstEntityValue(entities, 'name');
-    if (name) {
-      context.name = name;
+    const longEntryResponse = firstEntityValue(entities, 'longEntryResponse');
+    if (longEntryResponse) {
+      context.longEntryResponse = longEntryResponse;
     }
     
     console.log('end context: ' + util.inspect(context, { colors: true, depth: null }));
@@ -50,6 +50,22 @@ const actions = {
   error: (sessionId, context, error) => {
     console.log(err.message);
   },
+  respondToGreetings: (sessionId, context, cb) => {
+    context.greeting = 'Hello to you too! How was your day?';
+    cb(context);
+  },
+  storeDiaryEntry: (sessionId, context, cb) => {
+    
+    var savedEntryResponse = 'Not sure I understand...';
+    if (context.longEntryResponse === 'negative') {
+      savedEntryResponse = 'No problem, I\'m here if you want to talk.';
+    } else if (context.longEntryResponse === 'positive') {
+      savedEntryResponse = 'Thanks for sharing!';
+    }
+    
+    context.savedEntryResponse = savedEntryResponse;
+    cb(context);
+  } 
 };
 
 const client = new Wit(token, actions);

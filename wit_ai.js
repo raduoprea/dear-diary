@@ -3,6 +3,7 @@
 const Wit = require('node-wit').Wit;
 const radioTower = require('./radioTower')();
 
+var contexts = {};
 
 const witToken = process.env.WIT_TOKEN;
 
@@ -34,22 +35,44 @@ const actions = {
     })
   },
   merge: (sessionId, context, entities, message, cb) => {
-    // Retrieve the location entity and store it into a context field
-    const loc = firstEntityValue(entities, 'location');
-    if (loc) {
-      context.loc = loc;
+    // console.log('init context: ' + util.inspect(context, { colors: true, depth: null }));
+    // console.log('entities: ' + util.inspect(entities, { colors: true, depth: null }));
+   
+    const sentiment = firstEntityValue(entities, 'sentiment');
+    if (sentiment) {
+      context.sentiment = sentiment;
     }
+    
+    const longEntryResponse = firstEntityValue(entities, 'longEntryResponse');
+    if (longEntryResponse) {
+      context.longEntryResponse = longEntryResponse;
+    }
+    
+    // console.log('end context: ' + util.inspect(context, { colors: true, depth: null }));
+    contexts[sessionId] = context;
     cb(context);
   },
   error: (sessionId, context, error) => {
-    console.log(error.message);
+    console.log(err.message);
   },
-  'fetch-weather': (sessionId, context, cb) => {
-    // Here should go the api call, e.g.:
-    // context.forecast = apiCall(context.loc)
-    context.forecast = 'sunny';
+  respondToGreetings: (sessionId, context, cb) => {
+    context.greeting = 'Hello to you too! How was your day?';
+    contexts[sessionId] = context;
     cb(context);
   },
+  storeDiaryEntry: (sessionId, context, cb) => {
+    
+    var savedEntryResponse = 'Not sure I understand...';
+    if (context.longEntryResponse === 'negative') {
+      savedEntryResponse = 'No problem, I\'m here if you want to talk.';
+    } else if (context.longEntryResponse === 'positive') {
+      savedEntryResponse = 'Thanks for sharing!';
+    }
+    context.savedEntryResponse = savedEntryResponse;
+    
+    contexts[sessionId] = context;
+    cb(context);
+  }  
 };
 
 // Setting up our bot
@@ -63,7 +86,7 @@ function WitAi () {
     // Let's forward the message to the Wit.ai Bot Engine
     // This will run all actions until our bot has nothing left to do
     
-    const context = {}; 
+    const context = (contexts[sessionId]) ? contexts[sessionId] : {}; 
     
     wit.runActions(
         sessionId, // the user's current session
