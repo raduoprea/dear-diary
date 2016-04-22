@@ -69,6 +69,7 @@ const actions = {
       savedEntryResponse = 'Thanks for sharing!';
     }
     context.savedEntryResponse = savedEntryResponse;
+    context.done = true;
     
     contexts[sessionId] = context;
     cb(context);
@@ -103,9 +104,9 @@ function WitAi () {
             // Based on the session state, you might want to reset the session.
             // This depends heavily on the business logic of your bot.
             // Example:
-            // if (context['done']) {
-            //   delete sessions[sessionId];
-            // }
+            if (context['done']) {
+              delete contexts[sessionId];
+            }
 
             // Updating the user's current session state
             // sessions[sessionId].context = context;
