@@ -65,7 +65,12 @@ const actions = {
     
     context.savedEntryResponse = savedEntryResponse;
     cb(context);
-  } 
+  },
+  resetContext: (sessionId, context, cb) => {
+    context.response = 'Got it, just say \'Hi\' when you want to start again.';
+    contexts[sessionId] = context;
+    cb(context);
+  },
 };
 
 const client = new Wit(token, actions);

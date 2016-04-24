@@ -6,6 +6,8 @@ const radioTower = require('./radioTower')();
 var contexts = {};
 
 const witToken = process.env.WIT_TOKEN;
+const localEnvironment = (!witToken);
+var wit;
 
 module.exports = function () {
   return new WitAi()
@@ -25,14 +27,18 @@ const firstEntityValue = (entities, entity) => {
 
 const actions = {
   say: (sessionId, context, message, cb) => {
+    
+    if (!localEnvironment) {
+      radioTower.sendMessage(sessionId, message, (err, data) => {
+        if (err) {
+          console.log('Error sending a response to %s: %s', sessionId, err.message)
+        }
+        cb()
+      });
+    } else {
+      cb();
+    }
 
-    radioTower.sendMessage(sessionId, message, (err, data) => {
-      if (err) {
-        app.log.error('Error sending a response to %s: %s', fbUserId, err.message)
-      }
-      console.log('calling wit callback after say')
-      cb()
-    })
   },
   merge: (sessionId, context, entities, message, cb) => {
     // console.log('init context: ' + util.inspect(context, { colors: true, depth: null }));
@@ -73,11 +79,31 @@ const actions = {
     
     contexts[sessionId] = context;
     cb(context);
-  }  
+  },
+  resetContext: (sessionId, context, cb) => {
+    context.response = 'Got it, just say \'Hi\' when you want to start again.';
+    contexts[sessionId] = context;
+    cb(context);
+  },
 };
 
 // Setting up our bot
-const wit = new Wit(witToken, actions);
+if (!localEnvironment) {
+  wit = new Wit(witToken, actions);
+} else {
+  const token = (() => {
+    if (process.argv.length !== 3) {
+      console.log('usage: node examples/template.js <wit-token>');
+      process.exit(1);
+    }
+    return process.argv[2];
+  })();
+  
+  wit = new Wit(token, actions);
+  wit.interactive();
+
+}
+
 
 function WitAi () {
   var self = this
@@ -114,5 +140,7 @@ function WitAi () {
      });
       
   }
+  
+  
   
 }
